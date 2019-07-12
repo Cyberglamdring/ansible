@@ -1,6 +1,6 @@
 Homework first day
 ==================
-Hleb Kanonik, email: <hleb_kanonik@epam.com>
+Owner: *Hleb Kanonik, email: <hleb_kanonik@epam.com>*
 
 
 Tasks:
