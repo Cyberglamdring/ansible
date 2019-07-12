@@ -31,6 +31,8 @@ F) Develop ansible playbook (provision.yml) to provision following configuration
 - On “appserver”: install Tomcat + all required dependencies (java, etc)
 - Use variables for all necessary parameters (s/w versions, etc)
 - Playbook should use hosts/groups from “inventory” file.
+
+
 Use following modules (at least):
 - copy
 - file or template
@@ -38,14 +40,6 @@ Use following modules (at least):
 - group
 - service
 - shell
-unarchive -
-user
-yum
-
-For self-checking:
-Content of ~/ansible/day1/ folder:
-devops.pem
-inventory
-devops-bootstrap.yml
-provision.yml
-Vagrantfile
+- unarchive
+- user
+- yum
