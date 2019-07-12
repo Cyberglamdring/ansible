@@ -1,5 +1,7 @@
-Homework firs day
+Homework first day
 ==================
+Hleb Kanonik, email: <hleb_kanonik@epam.com>
+
 
 Tasks:
 ------
