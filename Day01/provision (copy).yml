@@ -1,0 +1,81 @@
+# -------------------NGINX--------------------------
+- name: Install NGINX to webservers
+  hosts: wevserver
+  become: true
+
+  tasks:
+  - name: Add Epel-release Repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install NGINX
+    yum:
+      name: nginx
+      state: present
+
+  - name: Configurate NGINX
+    tamplate:
+      src: nginx.conf
+      dest: "/etc/nginx/nginx.conf"
+      backup: yes
+
+  - name: Set proxy to Tomcat
+    copy:
+      src: tomcat.conf
+      dest: /etc/nginx/conf.d/tomcat.conf
+
+  - name: Start NGiNX
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+
+# -------------------TOMCAT--------------------------
+- name: Install Tomcat to webapps
+  hosts: webapps
+  become: true
+
+  tasks:
+  - name: Install Java from repo
+    yum:
+      name: java
+
+  - name: Download Tomcat
+    get_url:
+      url: http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-8/v8.5.42/bin/apache-tomcat-8.5.42.tar.gz
+      dest: /home/devops/
+
+  - name: Shell operation with Tomcat
+    shell: |
+      tar -xzvf apache-tomcat-8.5.42.tar.gz -C /opt
+      rm -f apache-tomcat-8.5.42.tar.gz
+
+      groupadd tomcat
+      useradd -g tomcat -d /opt/apache-tomcat-8.5.42 -s /bin/nologin tomcat
+      chown -R tomcat:tomcat /opt/apache-tomcat-8.5.42/
+
+      export CATALINA_HOME=/opt/apache-tomcat-8.5.42
+
+  - name: Add Tomcat web user
+    copy:
+      src: tomcat-users.xml
+      dest: /opt/apache-tomcat-8.5.42/conf/tomcat-users.xml
+      backup: yes
+
+  - name: Context.xml setups
+    copy:
+      src: context.xml
+      dest: /opt/apache-tomcat-8.5.42/webapps/manager/META-INF/context.xml
+      backup: yes
+
+  - name: Create Tomcat servace
+    copy:
+      src: tomcat.service
+      dest: /etc/systemd/system/tomcat.service
+
+  - name: Start Tomcat
+    service:
+      name: tomcat
+      state: started
+      enabled: yes

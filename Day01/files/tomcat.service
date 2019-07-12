@@ -1,0 +1,19 @@
+[Unit]
+Description=Apache Tomcat 9
+After=syslog.target network.target
+
+[Service]
+User=tomcat
+Group=tomcat
+Type=forking
+Environment=CATALINA_PID=/opt/apache-tomcat-8.5.42/tomcat.pid
+Environment=CATALINA_HOME=/opt/apache-tomcat-8.5.42
+Environment=CATALINA_BASE=/opt/apache-tomcat-8.5.42
+Environment=CATALINA_OPTS=-Xms256m -Xmx512m -verbose:gc -Xloggc:/opt/apache-tomcat-8.5.42/logs/jvm_gc_%p.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/apache-tomcat-8.5.42/logs/heap_dump_%p.log
+Environment=JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
+ExecStart=/opt/apache-tomcat-8.5.42/bin/startup.sh
+ExecStop=/opt/apache-tomcat-8.5.42/bin/shutdown.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

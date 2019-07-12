@@ -1,0 +1,92 @@
+# -------------------NGINX--------------------------
+- name: Install NGINX to webservers
+  hosts: webservers
+  # become: true
+  vars:
+    nginx_conf: /etc/nginx/nginx.conf
+    nginx_tc_confd: /etc/nginx/conf.d/tomcat.conf
+
+  tasks:
+  - name: Add Epel-release Repo
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install NGINX
+    yum:
+      name: nginx
+      state: present
+
+  - name: Configurate NGINX
+    template:
+      src: files/nginx.conf
+      dest: "{{ nginx_conf }}"
+      backup: yes
+
+  - name: Set proxy to Tomcat
+    copy:
+      src: files/tomcat.conf
+      dest: "{{ nginx_tc_confd }}"
+
+  - name: Start NGiNX
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+
+# -------------------TOMCAT--------------------------
+- name: Install Tomcat to webapps
+  hosts: webapps
+  # become: true
+  vars:
+    home_dir: /home/devops/
+    tc_users: /opt/apache-tomcat-8.5.42/conf/tomcat-users.xml
+    tc_context: /opt/apache-tomcat-8.5.42/webapps/manager/META-INF/context.xml
+    tc_systemd: /etc/systemd/system/tomcat.service
+
+  tasks:
+  - name: Install Java from repo
+    yum:
+      name: java
+
+  - name: Download Tomcat
+    get_url:
+      url: http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-8/v8.5.42/bin/apache-tomcat-8.5.42.tar.gz
+      dest: "{{ home_dir }}apache-tomcat-8.5.42.tar.gz"
+
+  - name: Unarchive Tomcat
+    unarchive:
+      src: "{{ home_dir }}apache-tomcat-8.5.42.tar.gz"
+      dest: /opt/
+      remote_src: yes
+
+  - name: Shell operation with Tomcat
+    shell: |
+      groupadd tomcat
+      useradd -g tomcat -d /opt/apache-tomcat-8.5.42 -s /bin/nologin tomcat
+      chown -R tomcat:tomcat /opt/apache-tomcat-8.5.42/
+
+      export CATALINA_HOME=/opt/apache-tomcat-8.5.42
+
+  - name: Add Tomcat web user
+    copy:
+      src: files/tomcat-users.xml
+      dest: "{{ tc_users }}"
+      backup: yes
+
+  - name: Context.xml setups
+    copy:
+      src: files/context.xml
+      dest: "{{ tc_context }}"
+      backup: yes
+
+  - name: Create Tomcat servace
+    copy:
+      src: files/tomcat.service
+      dest: "{{ tc_systemd }}"
+
+  - name: Start Tomcat
+    service:
+      name: tomcat
+      state: started
+      enabled: yes
