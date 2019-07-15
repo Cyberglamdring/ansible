@@ -1,3 +1,7 @@
+Second day homework
+==================
+Owner: **Hleb Kanonik**, email: <hleb_kanonik@epam.com>
+
     ./Day02
     ├── inventory
     ├── playbook.yml
