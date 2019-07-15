@@ -1,0 +1,4 @@
+gui_username: admin
+gui_password: admin
+gui_role: manager-gui
+proxy_pass: http://178.65.0.5:8080

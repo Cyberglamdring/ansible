@@ -1,0 +1,5 @@
+user_group: "{{ user_name }}"
+user_privs: |
+  Defaults:{{ user_name }} !requiretty
+  {{ user_name }} ALL=(ALL)  NOPASSWD: ALL
+user_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

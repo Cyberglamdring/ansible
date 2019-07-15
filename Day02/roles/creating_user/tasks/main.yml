@@ -1,0 +1,20 @@
+- name: user create
+  user:
+    name: "{{ user_name }}"
+    state: present
+
+- name: Create Group
+  group:
+    name: "{{ user_group }}"
+    state: present
+
+- name: user key
+  authorized_key:
+    user: "{{ user_name }}"
+    state: present
+    key: "{{ user_key }}"
+
+- name: user access
+  copy:
+    dest: "/etc/sudoers.d/{{ user_name }}"
+    content: "{{ user_privs }}"

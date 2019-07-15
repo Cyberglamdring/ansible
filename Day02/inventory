@@ -1,0 +1,5 @@
+[webservers]
+httpd ansible_host=178.65.0.5 ansible_connection=paramiko
+
+[appservers]
+tomcat ansible_host=178.65.0.6 ansible_connection=paramiko

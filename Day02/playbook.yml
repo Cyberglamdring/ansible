@@ -1,0 +1,31 @@
+# Create user on All hosts
+- hosts: all
+  roles:
+  - role: creating_user
+    user_name: devops
+  
+  # install net-tools to example
+  pre_tasks:
+  - name: install net-tools
+    yum:
+      name: net-tools
+      state: present  
+
+# installing Tomcat + Java on Appserver host
+- hosts: appservers
+  roles:
+  - role: tomcat
+    user_name: devops
+    tomcat_version: tomcat-8
+    tomcat_relase: 8.5.42
+    username_tomcat: tomcat
+    usergroup_tomcat: tomcat
+
+# installing HTTPD on Webserver host
+- hosts: webservers
+  roles:
+  - role: httpd
+
+- hosts: webservers:appservers
+  post_tasks:
+  - debug: msg="Works at the end"

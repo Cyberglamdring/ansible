@@ -1,0 +1,47 @@
+- name: tomcat download
+  get_url:
+    url: "http://ftp.byfly.by/pub/apache.org/tomcat/{{ tomcat_version }}/v{{ tomcat_relase }}/bin/apache-tomcat-8.5.42.tar.gz"
+    dest: "{{ home_dir }}/apache-tomcat-{{ tomcat_relase }}.tar.gz"
+
+- name: tomcat unarchive
+  unarchive:
+    src: "{{ home_dir }}/apache-tomcat-{{ tomcat_relase }}.tar.gz"
+    dest: /opt/
+    remote_src: yes
+
+- name: tomcat shell operation
+  shell: |
+    groupadd {{ tomcat_group }}
+    useradd -g {{ tomcat_user }} -d {{ tomcat_home }} -s /bin/nologin tomcat
+    chown -R {{ tomcat_user }}:{{ tomcat_group }} {{ tomcat_home }}
+
+    export CATALINA_HOME={{ tomcat_home }}
+
+- name: tomcat web-user settings
+  template:
+    src: tomcat-users.xml
+    dest: "{{ tomcat_home }}/conf/"
+    backup: yes
+  notify: restart apache tomcat
+
+- name: tomcat context.xml setup changes
+  template:
+    src: context.xml
+    dest: "{{ tomcat_home }}/webapps/manager/META-INF/"
+    backup: yes
+  notify: restart apache tomcat
+
+- name: tomcat servise create
+  template:
+    src: tomcat.service
+    dest: /etc/systemd/system/
+  become: yes
+  become_user: root
+
+- name: tomcat service enable
+  service:
+    name: tomcat
+    state: started
+    enabled: yes
+  become: yes
+  become_user: root

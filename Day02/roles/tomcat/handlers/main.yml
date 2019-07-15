@@ -1,0 +1,6 @@
+- name: restart apache tomcat
+  service: 
+    name: tomcat
+    state: restarted
+  become: yes
+  become_user: root

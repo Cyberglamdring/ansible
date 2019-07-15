@@ -1,0 +1,20 @@
+- name: httpd installation
+  yum:
+    name: httpd
+    state: present
+
+- name: httpd proxy to tocmat
+  template:
+    src: tomcat.conf
+    dest: "{{ httpd_home }}/conf.d/"
+  notify: restart httpd
+  become: yes
+  become_user: root
+
+- name: httpd service enable
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+  become: yes
+  become_user: root
