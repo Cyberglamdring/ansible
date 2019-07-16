@@ -2,3 +2,4 @@ home_dir: /home/{{ user_name }}
 tomcat_user: "{{ username_tomcat }}"
 tomcat_group: "{{ usergroup_tomcat }}"
 tomcat_home: /opt/apache-tomcat-{{ tomcat_relase }}
+tomcat_java_opts: "-Xms128m -Xmx512m -server"
