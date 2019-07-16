@@ -6,4 +6,3 @@
   shell: echo $JAVA_HOME
   environment:
     JAVA_HOME: "{{ java_home }}"
-  register: shellout
