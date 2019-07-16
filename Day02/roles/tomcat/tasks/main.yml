@@ -36,7 +36,6 @@
   shell: echo $JAVA_OPTS
   environment:
     JAVA_OPTS: "{{ tomcat_java_opts }}"
-  register: shellout
   notify: restart apache tomcat
 
 - name: tomcat servise create
