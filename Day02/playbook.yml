@@ -25,6 +25,7 @@
 - hosts: webservers
   roles:
   - role: httpd
+  - role: httpd_proxy
 
 - hosts: webservers:appservers
   post_tasks:
