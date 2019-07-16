@@ -5,4 +5,4 @@
 - name: java home settings
   shell: echo $JAVA_HOME
   environment:
-    JAVA_HOME: "{{ java_home }}"
+    JAVA_HOME: "{{ java_h }}"
