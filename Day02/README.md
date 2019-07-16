@@ -22,6 +22,15 @@ Owner: **Hleb Kanonik**, email: <hleb_kanonik@epam.com>
     │   │   │   └── tomcat.conf
     │   │   └── vars
     │   │       └── main.yml
+    │   ├── httpd_proxy
+    │   │   ├── defaults
+    │   │   │   └── main.yml
+    │   │   ├── handlers
+    │   │   │   └── main.yml
+    │   │   ├── tasks
+    │   │   │   └── main.yml
+    │   │   └── templates
+    │   │       └── tomcat.conf    
     │   ├── java
     │   │   └── tasks
     │   │       └── main.yml
