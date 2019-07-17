@@ -2,7 +2,7 @@
   yum:
     name: httpd
     state: present
- 
+
 - name: httpd service enable
   service:
     name: httpd
@@ -10,3 +10,18 @@
     enabled: yes
   become: yes
   become_user: root
+
+- package_facts:
+
+- name: create ansible facts folder httpd
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+  become: yes
+
+- name: httpd save deatails
+  copy:
+    content: |
+      { "version:" "{{ ansible_facts.packages.httpd[0].version }}" }
+    dest: /etc/ansible/facts.d/httpd.fact
+  become: yes
