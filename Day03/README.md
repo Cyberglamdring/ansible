@@ -16,7 +16,7 @@ Owner: **Hleb Kanonik**, email: <hleb_kanonik@epam.com>
     │   │   ├── defaults
     │   │   │   └── main.yml
     │   │   ├── handlers
-        │   │   │   └── main.yml
+    │   │   │   └── main.yml
     │   │   ├── tamplates
     │   │   │   └── index.html
     │   │   └── tasks
