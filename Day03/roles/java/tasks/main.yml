@@ -9,14 +9,14 @@
 
 - name: Creates directory
   file:
-    path: /opt/oracle/java
+    path: "{{ unarchiva_path }}"
     state: directory
   when: "'-bash: --java: command not found' in output.stdout"
 
 - name: Java unarchive
   unarchive:
     src: "{{ home_dir }}/jdk-{{ java_version }}_linux-x64_bin.tar.gz"
-    dest: /opt/java
+    dest: "{{ unarchiva_path }}"
     remote_src: yes
   become: yes
   when: "'-bash: --java: command not found' in output.stdout"
