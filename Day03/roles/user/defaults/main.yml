@@ -1,0 +1,6 @@
+user_uid: 1021
+user_group1: "{{ user_name }}"
+user_gid: 1021
+user_privs: |
+  Defaults:{{ user_name }} !requiretty
+  {{ user_name }} ALL=(ALL)  NOPASSWD: ALL

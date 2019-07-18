@@ -1,0 +1,45 @@
+- shell: java --version
+  register: output
+
+- name: Java istallation
+  copy:
+    src: jdk-{{ java_version }}_linux-x64_bin.tar.gz
+    dest: "{{ home_dir }}"
+  when: "'-bash: --java: command not found' in output.stdout"
+
+- name: Creates directory
+  file:
+    path: /opt/oracle/java
+    state: directory
+  when: "'-bash: --java: command not found' in output.stdout"
+
+- name: Java unarchive
+  unarchive:
+    src: "{{ home_dir }}/jdk-{{ java_version }}_linux-x64_bin.tar.gz"
+    dest: /opt/java
+    remote_src: yes
+  become: yes
+  when: "'-bash: --java: command not found' in output.stdout"
+
+- name: Java alternatives
+  command: alternatives --install {{ javap }}/java java {{ java_dir }}/bin/java 2
+  become: yes
+  when: "'-bash: --java: command not found' in output.stdout"
+
+- name: Jar alternatives
+  command: alternatives --install {{ javap }}/jar jar {{ java_dir }}/bin/jar 2
+  become: yes
+  when: "'-bash: --java: command not found' in output.stdout"
+
+- name: Javac alternatives
+  command: alternatives --install {{ javap }}/javac javac {{ java_dir }}/bin/javac 2
+  become: yes
+  when: "'-bash: --java: command not found' in output.stdout"
+
+- name: Java version
+  shell: java --version
+  register: output
+  failed_when: "'-bash: --java: command not found' in output.stdout"
+  when: "'-bash: --java: command not found' in output.stdout"
+
+  

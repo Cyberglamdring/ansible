@@ -1,0 +1,2 @@
+user_key: ~/.ssh/*.pub
+user_home: yes

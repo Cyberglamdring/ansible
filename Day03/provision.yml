@@ -1,0 +1,43 @@
+- hosts: all
+  roles:
+    - role: user
+      user_name: devops
+      user_group2: vagrant
+
+# installing Tomcat and Java on Appserver host 
+- hosts: appservers 
+  vars:
+    user_name: devops
+    users_ac:
+    - { name: hleb, id: 81821312345 }
+    - { name: devops, id: 8181152346 }
+
+    identity_id: "{{ users_ac|json_query(\"[?name=='hleb'].id\")|join('') }}"
+
+  tasks:
+  - name: Chek Filter
+    debug: 
+      var:
+        identity_id
+
+  roles:
+    - role: tomcat
+      tomcat_version: tomcat-8
+      tomcat_relase: 8.5.42
+      username_tomcat: tomcat
+      usergroup_tomcat: tomcat
+      become: yes
+  
+# installing HTTPD on Webserver host
+- hosts: webservers
+  roles:
+  - role: httpd
+
+  tasks:
+  - name: module
+    debug: msg={{item.module_bash}}
+    with_items:
+      - module_bash: started
+    # - module_python:
+    loop_control:
+      label: "{{ item.module_bash }}"
