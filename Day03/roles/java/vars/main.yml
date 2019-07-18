@@ -1,2 +1,3 @@
+unarchiva_path: /opt/oracle/java/
 java_dir: /opt/oracle/java/jdk-{{ java_version }}
 javap: /usr/bin
