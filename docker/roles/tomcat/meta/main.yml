@@ -1,0 +1,6 @@
+dependencies:
+  - role: java
+    vars:
+      operations:
+        - install
+        - alternatives

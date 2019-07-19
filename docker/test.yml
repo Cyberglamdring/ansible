@@ -1,0 +1,27 @@
+- import_playbook: docker_run.yml
+  tags: 
+    - build
+    - always
+
+- import_playbook: provision.yml
+  vars:
+    user_name: devops
+    user_group2: vagrant
+    tomcat_version: tomcat-8
+    tomcat_relase: 8.5.42
+    username_tomcat: tomcat
+    usergroup_tomcat: tomcat
+    java_version: 12.0.2
+  tags: 
+   - provison
+   - always
+
+- import_playbook: uri_t.yml
+  tags: 
+    - test
+    - always
+
+- import_playbook: docker_destroy.yml
+  tags: 
+    - destroy
+    - never

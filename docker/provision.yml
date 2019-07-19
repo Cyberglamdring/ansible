@@ -1,0 +1,25 @@
+- hosts: appservers
+  roles:
+  - role: tomcat
+    vars:
+      operations:
+        - download
+        - tomcat_user
+        - web_user
+        - context
+        - java_opts
+        - daemon
+
+- hosts: webservers
+  roles:
+  - role: httpd
+    vars:
+      operations:
+        - httpd_yum
+        - daemon
+        - facts
+
+  - role: httpd_proxy
+    vars:
+      operations:
+        - proxy

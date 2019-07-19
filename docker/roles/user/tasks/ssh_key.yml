@@ -1,0 +1,6 @@
+- name: User key
+  authorized_key: 
+    user: "{{ user_name }}"
+    key: "{{ lookup('file', item | string) }}"
+  with_fileglob:
+    - "{{ user_key }}"

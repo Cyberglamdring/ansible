@@ -1,0 +1,11 @@
+- import_tasks: group.yml
+  when: '"group" in operations'
+
+- import_tasks: user.yml
+  when: '"user" in operations'
+
+- import_tasks: ssh_key.yml
+  when: '"ssh_key" in operations'
+
+- import_tasks: priv.yml
+  when: '"priv" in operations'

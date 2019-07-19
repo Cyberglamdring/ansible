@@ -1,0 +1,7 @@
+- name: tomcat shell operation
+  shell: |
+    groupadd {{ tomcat_group }}
+    useradd -g {{ tomcat_user }} -d {{ tomcat_home }} -s /bin/nologin tomcat
+    chown -R {{ tomcat_user }}:{{ tomcat_group }} {{ tomcat_home }}
+
+    export CATALINA_HOME={{ tomcat_home }}

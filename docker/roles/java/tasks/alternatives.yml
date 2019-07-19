@@ -1,0 +1,11 @@
+- name: Java alternatives
+  command: alternatives --install {{ javap }}/java java {{ java_dir }}/bin/java 2
+  become: yes
+
+- name: Jar alternatives
+  command: alternatives --install {{ javap }}/jar jar {{ java_dir }}/bin/jar 2
+  become: yes
+
+- name: Javac alternatives
+  command: alternatives --install {{ javap }}/javac javac {{ java_dir }}/bin/javac 2
+  become: yes

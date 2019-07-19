@@ -1,0 +1,6 @@
+- name: tomcat context.xml setup changes
+  template:
+    src: context.xml
+    dest: "{{ tomcat_home }}/webapps/manager/META-INF/"
+    backup: yes
+  notify: restart apache tomcat

@@ -1,0 +1,17 @@
+- import_tasks: download.yml
+  when: '"download" in operations'
+
+- import_tasks: tomcat_user.yml
+  when: '"tomcat_user" in operations'
+
+- import_tasks: web_user.yml
+  when: '"web_user" in operations'
+
+- import_tasks: context.yml
+  when: '"context" in operations'
+
+- import_tasks: java_opts.yml
+  when: '"java_opts" in operations'
+
+- import_tasks: daemon.yml
+  when: '"daemon" in operations'

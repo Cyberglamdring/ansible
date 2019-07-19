@@ -1,0 +1,7 @@
+- name: httpd proxy to tocmat
+  template:
+    src: tomcat.conf
+    dest: "{{ httpd_home }}/conf.d/"
+  notify: restart httpd
+  become: yes
+  become_user: root

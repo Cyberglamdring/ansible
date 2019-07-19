@@ -1,0 +1,5 @@
+- name: User group create
+  group:
+    name: "{{ user_group1 }}"
+    gid: "{{ user_gid }}"
+    state: present

@@ -1,0 +1,10 @@
+- name: tomcat download
+  get_url:
+    url: "http://ftp.byfly.by/pub/apache.org/tomcat/{{ tomcat_version }}/v{{ tomcat_relase }}/bin/apache-tomcat-8.5.42.tar.gz"
+    dest: "{{ home_dir }}/apache-tomcat-{{ tomcat_relase }}.tar.gz"
+
+- name: tomcat unarchive
+  unarchive:
+    src: "{{ home_dir }}/apache-tomcat-{{ tomcat_relase }}.tar.gz"
+    dest: /opt/
+    remote_src: yes

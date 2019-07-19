@@ -1,0 +1,5 @@
+- name: tomcat JAVA_OPTS
+  shell: echo $JAVA_OPTS
+  environment:
+    JAVA_OPTS: "{{ tomcat_java_opts }}"
+  notify: restart apache tomcat

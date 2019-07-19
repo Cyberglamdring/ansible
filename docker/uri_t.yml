@@ -1,0 +1,20 @@
+- hosts: localhost
+  
+  tasks:
+  - name: Check word 
+    uri:
+      url: "http://{{ item }}/"
+      return_content: yes
+    register: this
+    loop: "{{ groups['webservers'] }}"
+    failed_when: "'Tomcat' not in this.content"
+    ignore_errors: True
+
+  - name: Check word 
+    uri:
+      url: "http://{{ item }}:8080/"
+      return_content: yes
+    register: this
+    loop: "{{ groups['appservers'] }}"
+    failed_when: "'Tomcat' not in this.content"
+    ignore_errors: True
