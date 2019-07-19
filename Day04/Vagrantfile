@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # create wevserver VM
+  config.vm.define "centos-webserver" do |webserver|
+    webserver.vm.box = "sbeliakou/centos"
+    webserver.vm.box_check_update = false
+    webserver.vm.network :private_network, ip: "178.65.0.10"
+    webserver.ssh.insert_key = false
+    webserver.vm.hostname = "webserver"
+
+    webserver.vm.provider "virtualbox" do |vb|
+      vb.name = "centos-webserver-day2"
+      vb.memory = "1024"
+    end
+  end
+
+  # create appserver VM
+  config.vm.define "centos-appserver" do |appserver|
+    appserver.vm.box = "sbeliakou/centos"
+    appserver.vm.box_check_update = false
+    appserver.vm.network :private_network, ip: "178.65.0.11"
+    appserver.ssh.insert_key = false
+    appserver.vm.hostname = "appserver"
+
+    appserver.vm.provider "virtualbox" do |vb|
+      vb.name = "centos-appserver-day2"
+      vb.memory = "2048"
+    end
+  end
+
+end

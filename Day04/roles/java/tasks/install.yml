@@ -1,0 +1,16 @@
+- name: Java istallation
+  copy:
+    src: jdk-{{ java_version }}_linux-x64_bin.tar.gz
+    dest: "{{ home_dir }}"
+
+- name: Creates directory
+  file:
+    path: "{{ unarchiva_path }}"
+    state: directory
+
+- name: Java unarchive
+  unarchive:
+    src: "{{ home_dir }}/jdk-{{ java_version }}_linux-x64_bin.tar.gz"
+    dest: "{{ unarchiva_path }}"
+    remote_src: yes
+  become: yes

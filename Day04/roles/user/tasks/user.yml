@@ -1,0 +1,10 @@
+- name: User create
+  user:
+    name: "{{ item.name | string}}"
+    uid: "{{ item.uid | int }}"
+    groups: "{{ item.groups | string }}"
+    create_home: "{{ item.home| bool }}"
+    state: present
+  with_items:
+     - { name: "{{ user_name }}", uid: "{{ user_uid }}", groups: "{{ user_group1 }}, {{ user_group2 | default(wheel) }}", 
+     home: "{{ user_home }}" }

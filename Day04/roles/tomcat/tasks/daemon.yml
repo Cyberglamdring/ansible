@@ -1,0 +1,12 @@
+- name: tomcat servise create
+  template:
+    src: tomcat.service
+    dest: /etc/systemd/system/
+  become: yes
+
+- name: tomcat service enable
+  service:
+    name: tomcat
+    state: started
+    enabled: yes
+  become: yes

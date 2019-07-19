@@ -1,0 +1,6 @@
+- name: tomcat web-user settings
+  template:
+    src: tomcat-users.xml
+    dest: "{{ tomcat_home }}/conf/"
+    backup: yes
+  notify: restart apache tomcat

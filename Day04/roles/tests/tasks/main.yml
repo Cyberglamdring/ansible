@@ -1,0 +1,9 @@
+- import_tasks: test_tomcat.yml
+  when: '"test_tomcat" in operations'
+  tags:
+    - test_tomcat
+
+- import_tasks: test_java.yml
+  when: '"test_java" in operations'
+  tags:
+    - test_java

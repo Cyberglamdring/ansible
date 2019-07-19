@@ -1,0 +1,4 @@
+- name: User access
+  copy:
+    dest: "/etc/sudoers.d/{{ user_name }}"
+    content: "{{ user_privs }}"

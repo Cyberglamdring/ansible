@@ -1,0 +1,8 @@
+- import_tasks: httpd_yum.yml
+  when: '"httpd_yum" in operations'
+
+- import_tasks: daemon.yml
+  when: '"daemon" in operations'
+
+- import_tasks: facts.yml
+  when: '"facts" in operations'

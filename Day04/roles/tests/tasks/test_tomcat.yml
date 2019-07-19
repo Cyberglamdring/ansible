@@ -1,0 +1,17 @@
+- name: Check word 
+  uri:
+    url: "http://{{ item }}/"
+    return_content: yes
+  register: this
+  with_items: "{{ hostvars[groups['webservers'][0]].ansible_host }}"
+  failed_when: "'Tomcat' not in this.content"
+  ignore_errors: True
+
+- name: Check word 
+  uri:
+    url: "http://{{ item }}:8080/"
+    return_content: yes
+  register: this
+  with_items: "{{ hostvars[groups['appservers'][0]].ansible_host }}"
+  failed_when: "'Tomcat' not in this.content"
+  ignore_errors: True

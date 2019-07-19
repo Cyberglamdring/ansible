@@ -1,0 +1,14 @@
+- hosts: webservers
+  tasks:
+    - block:
+      - yum:
+          name: vim
+      when: ansible_facts['distribution'] == 'CentOS'
+      become: true
+
+      rescue:
+        - debug:
+            msg: msg=rescue worked!
+      always:
+        - debug:
+            msg: msg=always worked!

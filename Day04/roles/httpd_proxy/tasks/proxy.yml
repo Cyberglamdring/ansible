@@ -1,0 +1,6 @@
+- name: httpd proxy to tocmat
+  template:
+    src: tomcat.conf.j2
+    dest: "{{ httpd_home }}/conf.d/"
+  notify: restart httpd
+  become: yes

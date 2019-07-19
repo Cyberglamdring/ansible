@@ -1,0 +1,9 @@
+- name: Java version
+  shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'                                                                                                                                   
+  changed_when: False
+  register: java_result
+  failed_when: java_result.stdout == ""
+  ignore_errors: True
+
+#- debug:
+#    msg: "{{ java_result.stdout }}"

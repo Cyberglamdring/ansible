@@ -1,0 +1,5 @@
+- import_tasks: install.yml
+  when: '"install" in operations'
+
+- import_tasks: alternatives.yml
+  when: '"alternatives" in operations'

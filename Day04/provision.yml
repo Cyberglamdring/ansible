@@ -1,0 +1,91 @@
+# ------------
+# Play 1 USER
+# ------------
+- hosts: all
+  roles:
+  - role: user
+    vars:
+      user_name: devops
+      user_group2: vagrant
+      operations:
+        - group
+        - user
+        - ssh_key
+        - priv
+  tags:
+    - allways
+    - user
+
+# ------------
+# Play 2 JAVA
+# ------------
+- hosts: all
+  roles:
+  - role: java
+    vars:
+      user_name: devops
+      operations:
+        - install
+        - alternatives
+  tags:
+    - never
+    - java
+
+# ------------
+# Play 3 TOMCAT
+# ------------
+- hosts: appservers
+  roles:
+  - role: tomcat
+    vars:
+      user_name: devops
+      tomcat_version: tomcat-8
+      tomcat_relase: 8.5.42
+      username_tomcat: tomcat
+      usergroup_tomcat: tomcat
+      operations:
+        - download
+        - tomcat_user
+        - web_user
+        - context
+        - java_opts
+        - daemon
+  tags:
+    - allways
+    - tomcat
+
+# ------------
+# Play 4 HTTPD
+# ------------
+- hosts: webservers
+  roles:
+  - role: httpd
+    vars:
+      operations:
+        - httpd_yum
+        - daemon
+#        - facts
+    tags:
+      - allways
+      - httpd
+
+  - role: httpd_proxy
+    vars:
+      operations:
+        - proxy
+    tags:
+      - allways
+      - proxy
+
+# ------------
+# Play 5 TESTS
+# ------------
+- hosts: all
+  roles:
+  - role: tests
+    vars:
+      operations:
+        - test_tomcat
+        - test_java
+    tags:
+      - tests
