@@ -1,0 +1,65 @@
+- name: Utilites installing
+  yum:
+    name: 
+      - update
+      - deltarpm
+      - epel-release 
+      - wget
+      - ntp
+      - jq
+      - net-tools
+      - bind-utiles
+      - moreutils
+      - git
+    state: present
+  become: yes
+
+- name: Shell
+  shell: |
+  getnforce | grep Disabled || setenforce 0
+  sudo echo "SELINUX=disabled" > /etc/sysconfig/selinux
+  
+  sudo sed -i '/swap/d' /etc/fstab
+  sudo swapoff --all
+
+- name: Creates directory
+  file:
+    path: /etc/docker
+    state: directory
+  become: yes
+
+- name: Create daemon.json
+  copy:
+    dest: etc/docker/daemon.json
+    content: |
+    {
+      "exec-opts": [
+        "native.cgroupdriver=systemd"
+      ]
+    }
+  become: yes
+  notify: docker restart
+
+- name: Create daemon.json
+  copy:
+    dest: /etc/yum.repos.d/kubernetes.repo
+    content: |
+    [kubernetes]
+    name=Kubernetes
+    baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    enabled=1
+    gpgcheck=1
+    repo_gpgcheck=1
+    gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+  become: yes
+
+- name: Utilites installing
+  yum:
+    name: 
+      - kubelet 
+      - kubeadm 
+      - kubectl 
+      - kubernetes-cni
+    state: present
+  become: yes
+  notify: docker restart

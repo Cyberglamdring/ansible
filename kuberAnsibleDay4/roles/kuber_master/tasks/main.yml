@@ -1,0 +1,51 @@
+- name: shell operations
+  shell: |
+
+  sudo kubeadm init \
+  --pod-network-cidr=10.244.0.0/16 \
+  --apiserver-advertise-address 192.168.56.225 \
+  --token tqqm17.dq8rsbk5k8tps07y
+
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+  kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml
+  kubectl patch daemonsets kube-flannel-ds-amd64 -n kube-system --patch='{"spec":{"template":{"spec":{"containers":[{"name": "kube-flannel",
+  "args":["--ip-masq","--kube-subnet-mgr","--iface=eth1"]}]}}}}'
+
+  kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.0/manifests/metallb.yaml
+  cat << EOF | kubectl apply -f -
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    namespace: metallb-system
+    name: config
+  data:
+    config: |
+      address-pools:
+      - name: default
+        protocol: layer2
+        addresses:
+        - 192.168.56.240/28
+  EOF
+
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/service-nodeport.yaml
+
+  sudo cd /tmp/
+  git clone https://github.com/nginxinc/kubernetes-ingress.git
+  cd kubernetes-ingress/
+  git checkout v1.5.0
+  cd ./deployments
+
+  kubectl apply -f common/ns-and-sa.yaml
+  kubectl apply -f common/default-server-secret.yaml
+  kubectl apply -f common/nginx-config.yaml
+  kubectl apply -f rbac/rbac.yaml
+  kubectl apply -f deployment/nginx-ingress.yaml
+  
+  kubectl patch -n ingress-nginx svc ingress-nginx --patch '{"spec": {"type": "LoadBalancer"}}'

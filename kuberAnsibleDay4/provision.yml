@@ -1,0 +1,32 @@
+- host: master:workers
+  roles:
+  - role: docker
+    vars:
+      operations:
+        - installation
+        - daemon
+        - permissions
+    become: yes
+    tags:
+      - allways
+      - docker
+
+  - role: kuber_all
+    vars:
+      operations:
+        - installation
+        - daemon_ntpd
+        - cgroupdr
+        - daemon_kubelet
+    become: yes
+    tags:
+      - allways
+      - kuber_all
+
+- host: master
+  roles:
+  - role: kuber_master
+    become: yes
+    tags:
+      - allways
+      - kuber_master

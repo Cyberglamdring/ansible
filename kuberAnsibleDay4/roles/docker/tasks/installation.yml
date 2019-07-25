@@ -1,0 +1,19 @@
+- name: Utilites installing
+  yum:
+    name: 
+      - yum-utils 
+      - jq 
+      - net-tools
+    state: present
+  become: yes
+
+- name: Docker repo adding
+  shell: |
+  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  yum-config-manager --enable docker-ce-edge
+
+- name: Docker installing
+  yum:
+    name:
+      - docker-ce
+  become: yes

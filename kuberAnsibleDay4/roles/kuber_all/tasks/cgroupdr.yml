@@ -1,0 +1,11 @@
+- name: docker conf
+  copy:
+    dest: /etc/sysctl.d/docker.conf
+    content: |
+    net.bridge.bridge-nf-call-ip6tables = 1
+    net.bridge.bridge-nf-call-iptables = 1
+  become: yes
+
+- name:
+  shell: |
+  sudo sysctl --system

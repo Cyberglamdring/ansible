@@ -1,0 +1,2 @@
+- name: Docker repo adding
+  shell: sudo usermod -aG docker vagrant

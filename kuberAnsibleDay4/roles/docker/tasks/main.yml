@@ -1,0 +1,8 @@
+- import_tasks: installation.yml
+  when: '"installation" in operations'
+
+- import_tasks: daemon.yml
+  when: '"daemon" in operations'
+
+- import_tasks: permissions.yml
+  when: '"permissions" in operations'

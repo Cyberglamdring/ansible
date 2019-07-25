@@ -1,0 +1,11 @@
+- import_tasks: installing.yml
+  when: '"installing" in operations'
+
+- import_tasks: daemon_ntpd.yml
+  when: '"daemon_ntpd" in operations'
+
+- import_tasks: cgroupdr.yml
+  when: '"cgroupdr" in operations'
+
+- import_tasks: daemon_kubelet.yml
+  when: '"daemon_kubelet" in operations'
